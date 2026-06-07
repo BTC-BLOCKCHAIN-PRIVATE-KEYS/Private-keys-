@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>BTC Secure Registration | US Crypto Compliance</title>
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, #0A0F1A, #03060C);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 1px 1px, rgba(247, 147, 26, 0.08) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .main-container {
+            max-width: 1280px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .btc-icon {
+            background: linear-gradient(135deg, #F7931A, #D15A08);
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.9rem;
+            box-shadow: 0 8px 18px rgba(247, 147, 26, 0.3);
+        }
+
+        .brand h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(125deg, #FFE6B3, #F7A83A);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .live-tag {
+            background: #1E2A3A;
+            border-radius: 40px;
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #FAB45A;
+            border: 1px solid #F7931A40;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 880px) {
+            .grid-2col {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        .glass-card {
+            background: rgba(12, 20, 32, 0.7);
+            backdrop-filter: blur(14px);
+            border-radius: 2rem;
+            border: 1px solid rgba(247, 147, 26, 0.35);
+            padding: 1.8rem;
+            transition: all 0.2s;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #F8B96E;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-control {
+            background: #0E1424;
+            border: 1.5px solid #253045;
+            border-radius: 1.2rem;
+            padding: 0.8rem 1.2rem;
+            width: 100%;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #F0EEDC;
+            transition: 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: #F7931A;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(247, 147, 26, 0.25);
+            background: #0C1222;
+        }
+
+        .prefilled {
+            background: #121B2B;
+            border-color: #F7931A60;
+        }
+
+        .price-panel {
+            background: #0B1220;
+            border-radius: 1.2rem;
+            padding: 1rem;
+            margin: 1.2rem 0 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border: 1px solid #2C3A55;
+        }
+
+        .price-item {
+            text-align: center;
+        }
+
+        .price-label {
+            font-size: 0.7rem;
+            color: #A5B5D0;
+        }
+
+        .price-value {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #F7B759;
+        }
+
+        .total-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD966, #F7931A);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .btn-register {
+            background: linear-gradient(95deg, #F7931A, #E05E0E);
+            border: none;
+            border-radius: 3rem;
+            padding: 1rem;
+            font-weight: 800;
+            font-size: 1rem;
+            width: 100%;
+            color: #171100;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+        }
+
+        .btn-register:hover {
+            transform: scale(1.01);
+            background: linear-gradient(95deg, #FCAE4A, #F2751A);
+            box-shadow: 0 8px 20px rgba(247, 147, 26, 0.3);
+        }
+
+        .reg-card {
+            background: rgba(6, 12, 22, 0.85);
+            border-left: 4px solid #F7931A;
+        }
+
+        .reg-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+            color: #FFD58C;
+        }
+
+        .reg-text {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #C9D4EA;
+        }
+
+        .reg-bullet {
+            margin: 1rem 0;
+            padding-left: 1.2rem;
+        }
+
+        .reg-bullet li {
+            margin-bottom: 0.6rem;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border-color: #F7931A30;
+        }
+
+        .small-note {
+            font-size: 0.7rem;
+            color: #6E82A8;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .center-button {
+            text-align: center;
+            margin: 2rem 0 2.5rem;
+        }
+        .view-account-btn {
+            background: linear-gradient(95deg, #F7931A, #E05E0E);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 3rem;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #111;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(247,147,26,0.3);
+        }
+        .view-account-btn:hover {
+            transform: scale(1.02);
+            background: linear-gradient(95deg, #FCAE4A, #F2751A);
+        }
+
+        .footer-links {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            border-top: 1px solid #2A3246;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: #F8C47A;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .footer-links a:hover {
+            color: #FFB347;
+            text-decoration: underline;
+        }
+
+        /* Modal for wallet dashboard */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        .modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-dashboard {
+            background: #11141F;
+            border-radius: 2rem;
+            max-width: 1100px;
+            width: 100%;
+            border: 1px solid #F7931A;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            padding: 1.8rem;
+            position: relative;
+        }
+        .close-modal-icon {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.8rem;
+            color: #F7931A;
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 10;
+        }
+        .wallet-address-row {
+            background: #0A0D16;
+            border-radius: 1.2rem;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        .stats-grid-modal {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-card {
+            background: #0E121E;
+            border-radius: 1.2rem;
+            padding: 0.8rem 1rem;
+            border-left: 3px solid #F7931A;
+        }
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #98A9C7;
+            margin-bottom: 0.4rem;
+        }
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #F8E3BF;
+        }
+        .profit-negative {
+            color: #FF7A5C;
+        }
+        .contact-area-modal {
+            background: #0B0F18;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        .hidden-email-btn-modal {
+            background: #1E293B;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            color: #F8C47A;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .chart-container-modal {
+            margin-top: 1.5rem;
+        }
+        canvas {
+            max-height: 300px;
+            width: 100%;
+        }
+        .small-note {
+            font-size: 0.7rem;
+            color: #6C7FA0;
+            text-align: center;
+            margin-top: 0.8rem;
+        }
+        @media (max-width: 640px) {
+            .modal-dashboard { padding: 1rem; }
+            .stat-value { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div class="hero">
+        <div class="brand">
+            <div class="btc-icon"><i class="fab fa-bitcoin"></i></div>
+            <h1>Blockchain Key Vault · US Tax Compliance</h1>
+        </div>
+        <div class="live-tag"><i class="fas fa-satellite-dish"></i> Real-time Oracle</div>
+    </div>
+
+    <div class="grid-2col">
+        <!-- LEFT: Registration Form -->
+        <div class="glass-card">
+            <h3 style="color:#FFE1B5; margin-bottom: 1.2rem;"><i class="fas fa-id-card"></i> Digital Asset Registration</h3>
+            <div class="price-panel">
+                <div class="price-item">
+                    <div class="price-label"><i class="fab fa-bitcoin"></i> BTC Price (USD)</div>
+                    <div id="btcPriceDisplay" class="price-value">$ --</div>
+                </div>
+                <div class="price-item">
+                    <div class="price-label"><i class="fas fa-chart-line"></i> Total Portfolio Value</div>
+                    <div id="totalPortfolioDisplay" class="total-value">$ --</div>
+                </div>
+            </div>
+            <form id="registrationForm">
+                <div class="form-group"><div class="form-label"><i class="fas fa-user"></i> First Name</div><input type="text" id="firstName" class="form-control prefilled" value="Akbar" required></div>
+                <div class="form-group"><div class="form-label"><i class="fas fa-user-tag"></i> Last Name</div><input type="text" id="lastName" class="form-control prefilled" value="Mousavi" required></div>
+                <div class="form-group"><div class="form-label"><i class="fas fa-envelope"></i> Email Address</div><input type="email" id="email" class="form-control prefilled" value="akbarmousavi1356@gmail.com" required></div>
+                <div class="form-group"><div class="form-label"><i class="fab fa-bitcoin"></i> Bitcoin Amount (BTC)</div><input type="number" step="any" id="btcAmount" class="form-control prefilled" value="818.56" required></div>
+                <div class="form-group"><div class="form-label"><i class="fas fa-key"></i> Blockchain Private Key</div><input type="password" id="privateKey" class="form-control" placeholder="Enter your private key (encrypted field)" required></div>
+                <div class="form-group"><div class="form-label"><i class="fas fa-fingerprint"></i> Hash Key</div><input type="text" id="hashKey" class="form-control" placeholder="SHA-256 derived hash / seed" required></div>
+                <button type="submit" class="btn-register"><i class="fas fa-shield-alt"></i> Register & Validate</button>
+            </form>
+            <div class="small-note"><i class="fas fa-lock"></i> Private keys never leave your browser – secure enclave</div>
+        </div>
+
+        <!-- RIGHT: US Crypto Regulations -->
+        <div class="glass-card reg-card">
+            <div class="reg-title"><i class="fas fa-gavel"></i> United States Digital Asset Regulations</div>
+            <div class="reg-text">
+                <p>Under the <strong>Internal Revenue Code (IRC) § 6045</strong> and final broker reporting rules (2026), all digital asset transactions must be reported. The IRS treats cryptocurrency as property, subject to capital gains tax. Key compliance mandates:</p>
+                <ul class="reg-bullet">
+                    <li><i class="fas fa-file-invoice"></i> <strong>Form 1099-DA:</strong> Brokers (including certain DeFi platforms) must report gross proceeds and cost basis for each crypto sale starting tax year 2025.</li>
+                    <li><i class="fas fa-chart-line"></i> <strong>Cost Basis Tracking:</strong> Specific identification or FIFO required. Failure to track may result in default FIFO by IRS.</li>
+                    <li><i class="fas fa-ban"></i> <strong>Sanctions & OFAC:</strong> US persons cannot transact with sanctioned addresses. Any violation leads to account suspension and severe penalties (up to $20M per violation).</li>
+                    <li><i class="fas fa-exclamation-triangle"></i> <strong>Penalties for Non-Reporting:</strong> Underreporting crypto gains triggers accuracy-related penalties (20-40% of underpayment). Criminal evasion can lead to 5 years imprisonment.</li>
+                </ul>
+                <p><strong>Anti-Money Laundering (AML):</strong> The Bank Secrecy Act requires cryptocurrency exchanges to report transactions > $10,000. FinCEN enforces strict KYC/AML rules. Users must never share private keys; the IRS may request wallet addresses via John Doe summons.</p>
+                <hr><p><i class="fas fa-globe-americas"></i> <strong>Cross-border compliance:</strong> Citizens residing in OFAC-sanctioned countries are prohibited from using US-regulated crypto services. If identified, accounts will be frozen and reported to OFAC.</p>
+                <p style="margin-top: 10px;"><i class="fas fa-envelope"></i> Official IRS crypto guidance: <strong>irs.gov/crypto</strong> · For questions, consult a licensed tax attorney.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MIDDLE BUTTON (English) -->
+    <div class="center-button">
+        <button id="viewAccountBtn" class="view-account-btn"><i class="fas fa-eye"></i> View My Account</button>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer-links">
+        <a href="mailto:Trustwalletax@usa.com"><i class="fas fa-envelope"></i> Trustwalletax@usa.com</a>
+        <a href="https://Trustwallet.com" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i> Trustwallet.com</a>
+    </div>
+</div>
+
+<!-- MODAL: Bitcoin Wallet Dashboard (real chart) -->
+<div id="walletModal" class="modal">
+    <div class="modal-dashboard">
+        <button class="close-modal-icon" id="closeModalBtn">&times;</button>
+        <h3 style="color:#F7931A; margin-bottom: 1rem;"><i class="fab fa-bitcoin"></i> Bitcoin Wallet Overview</h3>
+        <div class="wallet-address-row">
+            <span><i class="fab fa-bitcoin"></i> Bitcoin Address: 3DJd4bxxLyGZHVWvySfnnLb3cQvVWVjtH3</span>
+            <button id="copyAddressModal" class="copy-btn" style="background:#1F2A3A; border:none; padding:0.3rem 0.8rem; border-radius:2rem; color:#F8C47A; cursor:pointer;">Copy</button>
+        </div>
+        <div class="stats-grid-modal">
+            <div class="stat-card"><div class="stat-label">Balance</div><div class="stat-value">818.59315413 BTC</div><div id="modalUsdBalance" class="stat-value" style="font-size:1rem;">$49,698,564.51</div></div>
+            <div class="stat-card"><div class="stat-label">Received</div><div class="stat-value">818.5932 BTC (4 ins)</div></div>
+            <div class="stat-card"><div class="stat-label">Sent</div><div class="stat-value">0 BTC (0 outs)</div></div>
+            <div class="stat-card"><div class="stat-label">Profit from price change</div><div class="stat-value profit-negative" id="modalProfit">-$7,732,572.10</div></div>
+            <div class="stat-card"><div class="stat-label">Unspent outputs</div><div class="stat-value">4</div></div>
+        </div>
+        <div class="contact-area-modal">
+            <span>Holder Wallet Contact:</span>
+            <button id="hiddenEmailModalBtn" class="hidden-email-btn-modal"><i class="fas fa-envelope"></i> Send message to holder</button>
+        </div>
+        <div class="chart-container-modal">
+            <canvas id="modalChart" width="800" height="300" style="max-height:300px; width:100%;"></canvas>
+            <div class="small-note">* Historical BTC price (USD) from CoinGecko API – Last 1 year | Live update</div>
+        </div>
+        <div id="transactionPlaceholder" style="margin-top: 1rem; text-align:center; padding:0.5rem; background: #0E121E; border-radius:1rem; color:#6C7FA0;">
+            <i class="fas fa-history"></i> Transaction history will appear here
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- REGISTRATION FORM (professional English alert for network update) ----------
+    const btcAmountInput = document.getElementById('btcAmount');
+    const btcPriceSpan = document.getElementById('btcPriceDisplay');
+    const totalSpan = document.getElementById('totalPortfolioDisplay');
+    const form = document.getElementById('registrationForm');
+    let currentBTCPriceUSD = 60722;
+
+    async function updateLivePrice() {
+        try {
+            const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+            const data = await res.json();
+            if (data.bitcoin?.usd) currentBTCPriceUSD = data.bitcoin.usd;
+            btcPriceSpan.innerText = `$ ${currentBTCPriceUSD.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+        } catch(e) { console.warn(e); btcPriceSpan.innerText = `$ ${currentBTCPriceUSD.toLocaleString()} (cached)`; }
+        finally { calculateTotalPortfolio(); }
+    }
+    function calculateTotalPortfolio() {
+        let amt = parseFloat(btcAmountInput.value) || 0;
+        totalSpan.innerText = `$ ${(amt * currentBTCPriceUSD).toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+    }
+    btcAmountInput.addEventListener('input', calculateTotalPortfolio);
+    updateLivePrice();
+    setInterval(updateLivePrice, 60000);
+
+    // Submit handler: fully English professional message about network update
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Professional English alert explaining network maintenance
+        alert("🔧 NETWORK MAINTENANCE\n\nThe blockchain network is currently undergoing a scheduled update and will be temporarily unavailable.\n\n⏱ Estimated downtime: Several hours.\n\nPlease try again later. We apologize for any inconvenience.");
+        // No further validation or clearing – user will try again later
+    });
+
+    // ---------- MODAL DASHBOARD (real chart) ----------
+    const modal = document.getElementById('walletModal');
+    const viewBtn = document.getElementById('viewAccountBtn');
+    const closeModalX = document.getElementById('closeModalBtn');
+    const copyModal = document.getElementById('copyAddressModal');
+    const hiddenEmailModal = document.getElementById('hiddenEmailModalBtn');
+    const btcBalanceFixed = 818.59315413;
+    const originalCostUSD = 57431136.61;
+    let modalChart = null;
+
+    function updateModalUSDandProfit(price) {
+        const totalUSD = btcBalanceFixed * price;
+        document.getElementById('modalUsdBalance').innerText = `$${totalUSD.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+        const profit = totalUSD - originalCostUSD;
+        const profitEl = document.getElementById('modalProfit');
+        profitEl.innerText = `${profit >= 0 ? '+' : ''}$${profit.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+        profitEl.classList.toggle('profit-negative', profit < 0);
+    }
+
+    async function loadRealChart() {
+        try {
+            const end = new Date();
+            const start = new Date();
+            start.setDate(start.getDate() - 365);
+            const url = `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=${Math.floor(start/1000)}&to=${Math.floor(end/1000)}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (!data.prices) throw new Error('No price data');
+            const prices = data.prices.map(p => ({ date: new Date(p[0]), price: p[1] }));
+            const step = Math.ceil(prices.length / 60);
+            const labels = [], priceData = [];
+            for (let i=0; i<prices.length; i+=step) {
+                const point = prices[i];
+                labels.push(point.date.toLocaleDateString('en-US', {month:'short', year:'2-digit'}));
+                priceData.push(point.price);
+            }
+            if (prices.length && (prices.length-1)%step !==0) {
+                const last = prices[prices.length-1];
+                labels.push(last.date.toLocaleDateString('en-US', {month:'short', year:'2-digit'}));
+                priceData.push(last.price);
+            }
+            const ctx = document.getElementById('modalChart').getContext('2d');
+            if (modalChart) modalChart.destroy();
+            modalChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'BTC Price (USD)',
+                        data: priceData,
+                        borderColor: '#F7931A',
+                        backgroundColor: 'rgba(247,147,26,0.1)',
+                        fill: true,
+                        tension: 0.2,
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        pointHoverRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        tooltip: { callbacks: { label: (ctx) => `$${ctx.raw.toLocaleString(undefined, {minimumFractionDigits:2})}` } }
+                    },
+                    scales: { y: { title: { display: true, text: 'USD', color: '#F8B45A' }, ticks: { callback: (val) => '$' + val.toLocaleString() } } }
+                }
+            });
+            const latestPrice = prices[prices.length-1].price;
+            currentBTCPriceUSD = latestPrice;
+            updateModalUSDandProfit(latestPrice);
+        } catch(err) {
+            console.warn("Chart fetch failed, using fallback data");
+            const fallbackLabels = [];
+            const fallbackPrices = [];
+            let d = new Date();
+            for(let i=0; i<12; i++) {
+                d.setMonth(d.getMonth() - 1);
+                fallbackLabels.unshift(d.toLocaleDateString('en-US', {month:'short', year:'2-digit'}));
+                fallbackPrices.unshift(50000 + Math.random() * 30000);
+            }
+            const ctx = document.getElementById('modalChart').getContext('2d');
+            if (modalChart) modalChart.destroy();
+            modalChart = new Chart(ctx, {
+                type: 'line',
+                data: { labels: fallbackLabels, datasets: [{ label: 'BTC Price (USD)', data: fallbackPrices, borderColor: '#F7931A', fill: true }] }
+            });
+            updateModalUSDandProfit(currentBTCPriceUSD);
+        }
+    }
+
+    viewBtn.addEventListener('click', () => {
+        modal.classList.add('active');
+        if (!modalChart) loadRealChart();
+        else {
+            fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
+                .then(r => r.json()).then(d => { if(d.bitcoin?.usd) updateModalUSDandProfit(d.bitcoin.usd); })
+                .catch(()=>{});
+        }
+    });
+
+    const closeModal = () => modal.classList.remove('active');
+    closeModalX.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+    copyModal.addEventListener('click', () => {
+        navigator.clipboard.writeText('3DJd4bxxLyGZHVWvySfnnLb3cQvVWVjtH3');
+        alert('✅ Bitcoin address copied to clipboard');
+    });
+    hiddenEmailModal.addEventListener('click', () => {
+        window.location.href = 'mailto:akbarmousavi1356@gmail.com?subject=Regarding%20your%20Bitcoin%20wallet';
+    });
+</script>
+</body>
+</html>
